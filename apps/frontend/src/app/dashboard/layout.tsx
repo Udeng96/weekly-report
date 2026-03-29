@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { href: '/dashboard/archive', label: '보관함', icon: '📦' },
   { href: '/dashboard/projects', label: '프로젝트', icon: '🗂️' },
   { href: '/dashboard/stats', label: '통계', icon: '📊' },
+  { href: '/dashboard/profile', label: '내 정보', icon: '👤' },
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

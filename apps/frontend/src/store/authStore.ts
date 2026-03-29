@@ -10,6 +10,7 @@ interface AuthState {
   register: (data: { name: string; dept: string; rank: string; email: string; password: string }) => Promise<void>
   logout: () => void
   fetchMe: () => Promise<void>
+  updateMe: (data: { name?: string; dept?: string; rank?: string; email?: string; currentPassword?: string; newPassword?: string }) => Promise<void>
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -39,6 +40,11 @@ export const useAuthStore = create<AuthState>()(
 
       fetchMe: async () => {
         const res = await api.get('/api/auth/me')
+        set({ user: res.data.data })
+      },
+
+      updateMe: async (data) => {
+        const res = await api.patch('/api/auth/me', data)
         set({ user: res.data.data })
       },
     }),
