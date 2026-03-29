@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [isRegister, setIsRegister] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [remember, setRemember] = useState(true)
   const [form, setForm] = useState({
     name: '', dept: '', rank: '', email: '', password: '',
   })
@@ -24,7 +25,7 @@ export default function LoginPage() {
       if (isRegister) {
         await register(form)
       } else {
-        await login(form.email, form.password)
+        await login(form.email, form.password, remember)
       }
       router.push('/dashboard')
     } catch (err: any) {
@@ -145,6 +146,18 @@ export default function LoginPage() {
                 required
               />
             </div>
+
+            {!isRegister && (
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={e => setRemember(e.target.checked)}
+                  className="w-4 h-4 rounded accent-primary"
+                />
+                <span className="text-xs text-gray-500">로그인 상태 유지</span>
+              </label>
+            )}
 
             {error && (
               <div className="flex items-center gap-2 bg-red-50 border border-red-100 rounded-lg px-3 py-2">

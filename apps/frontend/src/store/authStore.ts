@@ -6,7 +6,7 @@ import { api } from '@/lib/api'
 interface AuthState {
   user: Omit<AuthorInfo, 'password'> | null
   token: string | null
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string, remember?: boolean) => Promise<void>
   register: (data: { name: string; dept: string; rank: string; email: string; password: string }) => Promise<void>
   logout: () => void
   fetchMe: () => Promise<void>
@@ -19,10 +19,16 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
 
-      login: async (email, password) => {
+      login: async (email, password, remember = true) => {
         const res = await api.post('/api/auth/login', { email, password })
         const { user, token } = res.data.data
-        localStorage.setItem('auth_token', token)
+        if (remember) {
+          localStorage.setItem('auth_token', token)
+          sessionStorage.removeItem('auth_token')
+        } else {
+          sessionStorage.setItem('auth_token', token)
+          localStorage.removeItem('auth_token')
+        }
         set({ user, token })
       },
 
@@ -35,6 +41,7 @@ export const useAuthStore = create<AuthState>()(
 
       logout: () => {
         localStorage.removeItem('auth_token')
+        sessionStorage.removeItem('auth_token')
         set({ user: null, token: null })
       },
 

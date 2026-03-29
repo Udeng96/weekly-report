@@ -35,7 +35,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <span className="font-bold text-primary text-sm">주간보고서</span>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-xs text-gray-400">{user.dept} · {user.rank} · {user.name}</span>
+            <Link href="/dashboard/profile" className="text-xs text-gray-400 hover:text-primary transition-colors">
+              {user.dept} · {user.rank} · <span className="font-semibold">{user.name}</span>
+            </Link>
             <button onClick={logout} className="text-xs text-gray-400 hover:text-gray-600">로그아웃</button>
           </div>
         </div>
